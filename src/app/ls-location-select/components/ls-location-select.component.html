@@ -1,0 +1,29 @@
+<mat-form-field class="example-chip-list">
+  <mat-label>Location multi-select</mat-label>
+  <mat-chip-list #chipList aria-label="Location selection">
+    <mat-chip
+      *ngFor="let location of locations.controls"
+      [removable]="true"
+      (removed)="remove(location.value)"
+    >
+      {{ autocompleteFormatter(location.value) }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="New Location..."
+      #locationInput
+      [formControl]="location"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    />
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="add($event)">
+    <mat-option
+      *ngFor="let autocompleteLocation of autocompleteLocations | async"
+      [value]="autocompleteLocation"
+    >
+      {{ autocompleteFormatter(autocompleteLocation) }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
